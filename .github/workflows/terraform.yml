@@ -1,0 +1,82 @@
+name: aws-infra
+
+on: 
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Select tf command to run'
+        required: true
+        default: 'plan'
+        type: choice
+        options:
+          - plan
+          - apply
+          - destroy
+permissions:
+  id-token: write
+  contents: read
+env:
+  TF_LOG: INFO
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./terraform
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4.1.7
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4.0.2
+      with: 
+        role-to-assume: ${{ secrets.AWS_ROLE }}
+        aws-region: ${{ secrets.AWS_REGION }}
+        role-session-name: Github-OIDC-Terraform
+
+    - name: HashiCorp - Setup Terraform
+      uses: hashicorp/setup-terraform@v3.1.2
+      with:
+        terraform_version: 1.9.x
+
+    - name: Terraform fmt
+      id: fmt
+      run: terraform fmt -check
+      continue-on-error: true
+
+    - name: Terraform Init
+      id: init
+      env: 
+        AWS_BUCKET_NAME: ${{ AWS_BUCKET_NAME }}
+        AWS_BUCKET_KEY_NAME: ${{ AWS_BUCKET_KEY_NAME }}
+      run: terraform init -backend-config="${AWS_BUCKET_NAME}" -backend-config="key=${AWS_BUCKET_KEY_NAME}"
+
+    - name: Terraform plan
+      id: plan
+      run: terraform plan -no-color -input=false
+      if: ${{ github.event.inputs.action }}" == "plan"
+      continue-on-error: true
+
+    - name: Terraform apply
+      id: apply
+      run: terraform apply -auto-approve -input=false
+      if: ${{ github.event.inputs.action }}" == "apply"
+      continue-on-error: true
+
+    - name: Terraform destroy
+      id: destroy
+      run: terraform destroy -auto-approve -input=false
+      if: ${{ github.event.inputs.action }}" == "destroy"
+      continue-on-error: false
+
+    # - name: Execute Terraform
+    #   run: |
+    #     if [ "${{ github.event.inputs.action }}" == "plan" ]; then
+    #       terraform plan
+    #     elif [ "${{ github.event.inputs.action }}" == "apply" ]; then
+    #       terraform apply -auto-approve
+    #     elif [ "${{ github.event.inputs.action }}" == "destroy" ]; then
+    #       terraform destroy -auto-approve
+    #     fi
