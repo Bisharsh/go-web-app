@@ -1,4 +1,4 @@
-name: aws-infra-${GITHUB_RUN_ID}
+name: aws-infra - ${{ github.run_id }} - ${{ github.run_number }}
 
 on: 
   workflow_dispatch:
