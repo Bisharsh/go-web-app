@@ -26,11 +26,6 @@ jobs:
         shell: bash
         working-directory: ./terraform
     steps:
-    - name: Set Build Date in Reverse
-      id: set-date
-      run: |
-        echo "BUILD_DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
-        echo "::set-output name=build_date::$(date +'%Y%m%d')"
 
     - name: Checkout
       uses: actions/checkout@v4.1.7
