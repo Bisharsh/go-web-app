@@ -1,4 +1,4 @@
-name: aws-infra - ${{ github.run_id }} - ${{ github.run_number }}
+name: aws-infra
 
 on: 
   workflow_dispatch:
@@ -21,6 +21,7 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    name: aws-infra - Run ID ${{ github.run_id }} - Run #${{ github.run_number }}
     defaults:
       run:
         shell: bash
