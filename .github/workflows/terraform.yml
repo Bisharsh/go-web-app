@@ -53,30 +53,30 @@ jobs:
         AWS_BUCKET_KEY_NAME: ${{ secrets.AWS_BUCKET_KEY_NAME }}
       run: terraform init -backend-config="${AWS_BUCKET_NAME}" -backend-config="key=${AWS_BUCKET_KEY_NAME}"
 
-    - name: Terraform plan
-      id: plan
-      run: terraform plan -no-color -input=false
-      if: ${{ github.event.inputs.action }}" == "plan"
-      continue-on-error: true
+    # - name: Terraform plan
+    #   id: plan
+    #   run: terraform plan -no-color -input=false
+    #   if: ${{ github.event.inputs.action }}" == "plan"
+    #   continue-on-error: true
 
-    - name: Terraform apply
-      id: apply
-      run: terraform apply -auto-approve -input=false
-      if: ${{ github.event.inputs.action }}" == "apply"
-      continue-on-error: true
+    # - name: Terraform apply
+    #   id: apply
+    #   run: terraform apply -auto-approve -input=false
+    #   if: ${{ github.event.inputs.action }}" == "apply"
+    #   continue-on-error: true
 
-    - name: Terraform destroy
-      id: destroy
-      run: terraform destroy -auto-approve -input=false
-      if: ${{ github.event.inputs.action }}" == "destroy"
-      continue-on-error: false
+    # - name: Terraform destroy
+    #   id: destroy
+    #   run: terraform destroy -auto-approve -input=false
+    #   if: ${{ github.event.inputs.action }}" == "destroy"
+    #   continue-on-error: false
 
-    # - name: Execute Terraform
-    #   run: |
-    #     if [ "${{ github.event.inputs.action }}" == "plan" ]; then
-    #       terraform plan
-    #     elif [ "${{ github.event.inputs.action }}" == "apply" ]; then
-    #       terraform apply -auto-approve
-    #     elif [ "${{ github.event.inputs.action }}" == "destroy" ]; then
-    #       terraform destroy -auto-approve
-    #     fi
+    - name: Execute Terraform
+      run: |
+        if [ "${{ github.event.inputs.action }}" == "plan" ]; then
+          terraform plan
+        elif [ "${{ github.event.inputs.action }}" == "apply" ]; then
+          terraform apply -auto-approve
+        elif [ "${{ github.event.inputs.action }}" == "destroy" ]; then
+          terraform destroy -auto-approve
+        fi
