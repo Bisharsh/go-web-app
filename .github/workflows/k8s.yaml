@@ -1,0 +1,32 @@
+name: Deploy to EKS
+
+on: workflow_dispatch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository code
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      # Step 2: Configure AWS credentials for kubectl access to EKS
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}  # Replace with your EKS cluster's region
+
+      # Step 3: Set up kubectl for EKS cluster
+      - name: Setup kubectl and authenticate with EKS
+        run: |
+          aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name your-cluster-name
+
+      # Step 4: Deploy Kubernetes manifests (deployment, ingress, and service) from the 'manifests' folder
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl apply -f manifests/deployment.yaml
+          kubectl apply -f manifests/service.yaml
+          kubectl apply -f manifests/ingress.yaml
