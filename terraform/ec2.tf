@@ -7,7 +7,7 @@ module "ec2_instance" {
   key_name               = "Agent1"
   monitoring             = true
   vpc_security_group_ids = [aws_security_group.all_worker_mgmt.id]
-  subnet_ids             = module.vpc.private_subnets
+  subnet_id              = module.vpc.private_subnets
 
   tags = {
     Terraform   = "true"
