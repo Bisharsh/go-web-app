@@ -22,7 +22,6 @@ jobs:
       # Step 3: Set up kubectl for EKS cluster
       - name: Setup kubectl and authenticate with EKS
         run: |
-          aws eks get-token --cluster-name ${{ secrets.EKS_NAME }} | kubectl apply -f -
           aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name ${{ secrets.EKS_NAME }}
 
       # Step 4: Deploy Kubernetes manifests (deployment, ingress, and service) from the 'manifests' folder
