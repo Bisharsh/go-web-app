@@ -11,6 +11,8 @@ module "ec2_instance" {
 
   associate_public_ip_address = true 
 
+  ami                    = "ami-0d7d1c852f6af9831"
+
   tags = {
     Terraform   = "true"
     # purpose = "github-actions-agent"
