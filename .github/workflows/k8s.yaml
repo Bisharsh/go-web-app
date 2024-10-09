@@ -4,7 +4,7 @@ on: workflow_dispatch
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       # Step 1: Checkout the repository code
@@ -27,6 +27,6 @@ jobs:
       # Step 4: Deploy Kubernetes manifests (deployment, ingress, and service) from the 'manifests' folder
       - name: Deploy to Kubernetes
         run: |
-          kubectl apply -f manifests/deployment.yaml --validate=false
-          kubectl apply -f manifests/service.yaml --validate=false
-          kubectl apply -f manifests/ingress.yaml --validate=false
+          kubectl apply -f manifests/deployment.yaml 
+          kubectl apply -f manifests/service.yaml 
+          kubectl apply -f manifests/ingress.yaml 
