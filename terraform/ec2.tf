@@ -11,6 +11,6 @@ module "ec2_instance" {
 
   tags = {
     Terraform   = "true"
-    purpose = "github-actions-agent"
+    # purpose = "github-actions-agent"
   }
 }
