@@ -73,12 +73,12 @@ jobs:
     #   if: ${{ github.event.inputs.action }}" == "destroy"
     #   continue-on-error: false
 
-    # - name: Execute Terraform ${{ github.event.inputs.action }}
-    #   run: |
-    #     if [ "${{ github.event.inputs.action }}" == "plan" ]; then
-    #       terraform plan
-    #     elif [ "${{ github.event.inputs.action }}" == "apply" ]; then
-    #       terraform apply -auto-approve
-    #     elif [ "${{ github.event.inputs.action }}" == "destroy" ]; then
-    #       terraform destroy -auto-approve
-    #     fi
+    - name: Execute Terraform ${{ github.event.inputs.action }}
+      run: |
+        if [ "${{ github.event.inputs.action }}" == "plan" ]; then
+          terraform plan
+        elif [ "${{ github.event.inputs.action }}" == "apply" ]; then
+          terraform apply -auto-approve
+        elif [ "${{ github.event.inputs.action }}" == "destroy" ]; then
+          terraform destroy -auto-approve
+        fi
