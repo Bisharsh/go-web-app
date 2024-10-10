@@ -15,7 +15,7 @@ on:
 jobs:
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
     - name: Checkout repository
@@ -33,7 +33,7 @@ jobs:
       run: go test ./...
   
   code-quality:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
     - name: Checkout repository
@@ -45,20 +45,19 @@ jobs:
         version: v1.56.2
   
   kaniko:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@master
       - name: Kaniko build
         uses: aevea/action-kaniko@master
         with:
-          image: ${{ secrets.DOCKERHUB_USERNAME }}/go-web-app:${{github.run_id}}
+          image: bisharsh/go-web-app:${{github.run_id}}
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           cache: false
 
   update-newtag-in-helm-chart:
-    runs-on: ubuntu-latest
-
+    runs-on: self-hosted
     needs: kaniko
 
     steps:
