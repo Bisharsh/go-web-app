@@ -1,4 +1,4 @@
-name: Deploy to EKS
+name: Helm Release Pipeline
 
 on: workflow_dispatch
 
