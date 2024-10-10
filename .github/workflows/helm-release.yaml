@@ -27,7 +27,8 @@ jobs:
       # Step 4: Deploy Kubernetes manifests (deployment, ingress, and service) from the 'manifests' folder
       - name: Deploy to Kubernetes
         run: |
-          helm install helm/go-web-app ./go-web-app-chart
+          pwd && ls 
+          cd helm && helm install go-web-app ./go-web-app-chart
 
       - name: Verify deployment
         run: |
