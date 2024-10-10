@@ -15,7 +15,7 @@ on:
 jobs:
 
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
@@ -33,7 +33,7 @@ jobs:
       run: go test ./...
   
   code-quality:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
@@ -45,7 +45,7 @@ jobs:
         version: v1.56.2
   
   kaniko:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
       - name: Kaniko build
@@ -57,7 +57,7 @@ jobs:
           cache: false
 
   update-newtag-in-helm-chart:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     needs: kaniko
 
     steps:
