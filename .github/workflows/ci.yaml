@@ -51,7 +51,7 @@ jobs:
       - name: Kaniko build
         uses: aevea/action-kaniko@master
         with:
-          image: bisharsh/go-web-app:${{github.run_id}}
+          image: bisharsh/go-web-app-${{github.run_id}}
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           cache: false
